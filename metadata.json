@@ -1,0 +1,6 @@
+{
+  "name": "TICK",
+  "description": "A focused academic task prioritization web app for postgraduate university students.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
