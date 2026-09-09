@@ -5,7 +5,7 @@
 
 ---
 
-## Prompt 1 - the master prompt
+## Prompt 1 - The master prompt
 ```
 ROLE: You are a senior front-end developer building a React web app.
 
@@ -45,7 +45,7 @@ CONTEXT:  Individual Problem Set 1 for MGMT 6110 Human-AI Collaboration at SMU. 
 
 ---
 
-## Prompt 2 
+## Prompt 2 - Initial annotation attempt
 ```
 Apply the edits shown in the screenshot.
 	- Replaced Course Code Box with Tips instead
@@ -57,7 +57,7 @@ Apply the edits shown in the screenshot.
 
 ---
 
-## Prompt 3
+## Prompt 3 - First successful content update
 ```
 Apply the edits shown in the screenshot.
 	- Replaced Course Code Box with Tips instead
@@ -71,7 +71,7 @@ Apply the edits shown in the screenshot.
                                 
 ---
 
-## Prompt 4
+## Prompt 4 - Fix mobile header overlap
 ```
 Apply the edits shown in the screenshot.  
 	- Increased the size of the TICK logo badge with a distinctive
@@ -85,7 +85,7 @@ Apply the edits shown in the screenshot.
 
 ---
 
-## Prompt 5
+## Prompt 5 - Cancelled annotation attempt
 ```
 Apply the edits shown in the screenshot.   
 	- Increased the size of the TICK logo badge with a distinctive
@@ -100,7 +100,7 @@ Apply the edits shown in the screenshot.
 
 ---
 
-## Prompt 6
+## Prompt 6 - Refine app look
 ```
 Apply the edits shown in the screenshot 
 	- Format information displayed cleanly 
@@ -116,7 +116,7 @@ Apply the edits shown in the screenshot
 
 ---
 
-## Prompt 7
+## Prompt 7 - Improve clarity
 ```
 Rework the color palette to be look "fresh" and brighter color suitable for an educational/academic use.
 Unless it's on dark mode / accessibility features, the Slate & Emerald look too depressing. 
@@ -135,7 +135,7 @@ Unless it's on dark mode / accessibility features, the Slate & Emerald look too 
 
 ---
 
-## Prompt 8
+## Prompt 8 - Clarify branding
 ```
 What does PG Queue means or represents? Can the App name be more prominent and avoid black.
 Make it look like it's part of the app or combine it with the "Tick" to make it an app logo. 
@@ -149,7 +149,7 @@ Make it look like it's part of the app or combine it with the "Tick" to make it 
                                   
 ---
 
-## Prompt 9
+## Prompt 9 - Mobile polish
 ```
 All looks good EXCEPT the mobile version on portrait view:
     - Pending task section on top is cut off
