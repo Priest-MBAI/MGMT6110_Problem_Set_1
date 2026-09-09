@@ -1,4 +1,5 @@
 REFLECTION
+**Student:** Alan Asman Adanan· **Course:** MGMT 6110 · **Problem Set 1**
 
 Q1. Who are your users, and what changes for them?
 My users are postgraduate students at a specialised business school, 900-plus across the School of Business. They sit outside the organisation, but the data is the school's own. Course coordinators and the programme office publish deadlines and weightage through the intranet and inside outline PDFs.
