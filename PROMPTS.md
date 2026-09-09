@@ -1,6 +1,8 @@
 # PROMPTS.md - TICK
 **Student:** Alan Asman Adanan· **Course:** MGMT 6110 · **Problem Set 1**
+
 **User sentence:** A postgraduate student opens this screen to see the most urgent academic task for the week, and knows it worked when the top-prioritised task shows its deadline, estimated effort, task type, and a clear next action.
+
 **Live link:** https://mgmt-6110-problem-set-1.vercel.app/ 
 
 ---
