@@ -93,9 +93,14 @@ export default function App() {
 
       {/* Subtle fresh academic footer */}
       <footer className="py-4 text-center text-xs text-slate-500 border-t border-slate-200 bg-white">
-        <div className="max-w-xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-[11px]">
-          <span className="font-semibold text-slate-600">TICK Academic Assistant • MGMT 6110 Human-AI Collaboration</span>
-          <span className="text-slate-400">Postgraduate Study Queue • University School Portal</span>
+        <div className="max-w-xl mx-auto px-4 flex flex-col items-center gap-2 text-[11px]">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-1">
+            <span className="font-semibold text-slate-600">TICK Academic Assistant • MGMT 6110 Human-AI Collaboration</span>
+            <span className="text-slate-400">Postgraduate Study Queue • University School Portal</span>
+          </div>
+          <p className="text-[10px] text-slate-500 text-center leading-relaxed">
+            Contains information from LTA DataMall accessed on 15 September 2026 from https://datamall.lta.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0
+          </p>
         </div>
       </footer>
     </div>

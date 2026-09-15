@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Task } from '../types';
 import { 
   Calendar, 
@@ -10,8 +10,24 @@ import {
   Sparkles,
   Layers,
   Lightbulb,
-  GraduationCap
+  GraduationCap,
+  Bus,
+  RotateCcw
 } from 'lucide-react';
+
+interface BusServiceArrival {
+  serviceNumber: string;
+  serviceNo?: string;
+  nextBusMinutes: number | null;
+  followingBusMinutes: number | null;
+}
+
+type TravelStatus = 'loading' | 'empty' | 'refused' | 'unreachable' | 'success';
+
+interface TravelState {
+  status: TravelStatus;
+  services: BusServiceArrival[];
+}
 
 interface PrioritisedTaskScreenProps {
   task: Task;
@@ -26,6 +42,66 @@ export const PrioritisedTaskScreen: React.FC<PrioritisedTaskScreenProps> = ({
   totalCount,
   onOpenActionSteps
 }) => {
+  const [travelState, setTravelState] = useState<TravelState>({
+    status: 'loading',
+    services: []
+  });
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadArrivals = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      const response = await fetch('/api/arrivals');
+      if (!response.ok) {
+        // Non-2xx (503 if key missing, 401/403/500/etc. from upstream) -> refused case
+        setTravelState({
+          status: 'refused',
+          services: []
+        });
+        setRefreshing(false);
+        return;
+      }
+
+      const data = await response.json();
+      const list: BusServiceArrival[] = Array.isArray(data)
+        ? data
+        : Array.isArray((data as any)?.services)
+        ? (data as any).services
+        : [];
+
+      // Upstream answered 200 but Services array is empty or has no upcoming arrivals -> empty case
+      if (
+        list.length === 0 ||
+        list.every(
+          (s) => s.nextBusMinutes === null && s.followingBusMinutes === null
+        )
+      ) {
+        setTravelState({
+          status: 'empty',
+          services: []
+        });
+        setRefreshing(false);
+        return;
+      }
+
+      setTravelState({
+        status: 'success',
+        services: list
+      });
+    } catch (err) {
+      // Network failure / client cannot reach arrivals service -> unreachable case
+      setTravelState({
+        status: 'unreachable',
+        services: []
+      });
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadArrivals();
+  }, [loadArrivals]);
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-5 flex flex-col gap-4">
       {/* Top Banner: Dynamic academic hero card with gradient layering */}
@@ -162,6 +238,113 @@ export const PrioritisedTaskScreen: React.FC<PrioritisedTaskScreenProps> = ({
                 <span className="font-bold text-slate-900">Location: </span>
                 {task.classroomLocationFull}
               </span>
+            </div>
+
+            {/* Live Travel Strip: Next buses arriving at bus stop 04151 (Stamford Road / LKCSB) */}
+            <div className="mt-1 pt-2 border-t border-indigo-200/70 flex flex-col gap-2">
+              <div className="flex items-center justify-between gap-1.5">
+                <div className="flex items-center gap-1.5">
+                  <Bus className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+                  <span className="text-[11px] font-black uppercase tracking-wider text-indigo-950">
+                    Live Travel • Bus Stop 04151 (Stamford Rd)
+                  </span>
+                </div>
+                {travelState.status === 'success' && (
+                  <button
+                    type="button"
+                    onClick={loadArrivals}
+                    disabled={refreshing}
+                    title="Refresh bus arrivals"
+                    className="text-[10px] font-bold text-indigo-700 hover:text-indigo-900 flex items-center gap-1 px-1.5 py-0.5 rounded bg-indigo-100/70 hover:bg-indigo-200/70 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className={`w-2.5 h-2.5 ${refreshing ? 'animate-spin' : ''}`} />
+                    <span>Live</span>
+                  </button>
+                )}
+              </div>
+
+              {/* State 1: loading */}
+              {travelState.status === 'loading' && (
+                <div className="p-2.5 bg-indigo-50/70 rounded-lg border border-indigo-200/70 text-xs text-indigo-950 font-medium flex items-center gap-2">
+                  <Bus className="w-4 h-4 text-indigo-500 shrink-0 animate-pulse" />
+                  <span>Checking arrivals at Stamford Road bus stop</span>
+                </div>
+              )}
+
+              {/* State 2: empty */}
+              {travelState.status === 'empty' && (
+                <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-700 font-medium flex items-center gap-2">
+                  <Bus className="w-4 h-4 text-slate-400 shrink-0" />
+                  <span>No buses to LKCSB at this hour — first service is around 05:45</span>
+                </div>
+              )}
+
+              {/* State 3: refused */}
+              {travelState.status === 'refused' && (
+                <div className="p-2.5 bg-amber-50/90 rounded-lg border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>We're unable to reach LTA's arrivals right now. Class details are unaffected.</span>
+                </div>
+              )}
+
+              {/* State 4: unreachable */}
+              {travelState.status === 'unreachable' && (
+                <div className="p-2.5 bg-rose-50/90 rounded-lg border border-rose-200 text-xs text-rose-900 font-medium flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>Check your connection as we can't reach the arrivals service. Your class details below are still accurate.</span>
+                </div>
+              )}
+
+              {/* State 5: success (Live Buses Arriving) */}
+              {travelState.status === 'success' && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {travelState.services.map((bus) => {
+                    const sNo = bus.serviceNumber || bus.serviceNo || '';
+                    const nextText =
+                      bus.nextBusMinutes === null
+                        ? 'No bus'
+                        : bus.nextBusMinutes === 0
+                        ? 'Arr'
+                        : `${bus.nextBusMinutes}m`;
+                    const folText =
+                      bus.followingBusMinutes === null
+                        ? '—'
+                        : `${bus.followingBusMinutes}m`;
+                    const isArr =
+                      bus.nextBusMinutes !== null && bus.nextBusMinutes <= 2;
+
+                    return (
+                      <div
+                        key={sNo}
+                        className="bg-white/95 px-2.5 py-2 rounded-lg border border-indigo-200/90 shadow-2xs flex flex-col justify-between gap-1.5"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-black text-xs text-indigo-950 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">
+                            {sNo}
+                          </span>
+                          <span
+                            className={`text-xs font-black ${
+                              isArr
+                                ? 'text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded'
+                                : 'text-slate-900'
+                            }`}
+                          >
+                            {nextText}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-[10px] text-slate-500 font-medium pt-1 border-t border-slate-100">
+                          <span>
+                            Next: <strong className="text-slate-700">{nextText}</strong>
+                          </span>
+                          <span>
+                            Then: <strong className="text-slate-700">{folText}</strong>
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>
