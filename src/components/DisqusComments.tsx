@@ -1,32 +1,58 @@
-import { useEffect } from 'react';
-
-const DISQUS_SHORTNAME = 'aaa-mbai';
-const PAGE_URL = 'https://mgmt-6110-problem-set-1.vercel.app';
-const PAGE_IDENTIFIER = 'home';
-const SCRIPT_ID = 'dsq-embed-scr';
+import React, { useEffect } from 'react';
 
 declare global {
   interface Window {
-    disqus_config?: (this: { page: { url: string; identifier: string } }) => void;
+    DISQUS?: {
+      reset: (options: {
+        reload: boolean;
+        config?: (this: any) => void;
+      }) => void;
+    };
+    disqus_config?: (this: any) => void;
   }
 }
 
-export function DisqusComments() {
+export const DisqusComments: React.FC = () => {
   useEffect(() => {
-    // Load the Disqus Universal Code once, even if this effect runs again
-    if (document.getElementById(SCRIPT_ID)) return;
+    const disqusShortname = 'aaa-mbai';
+    const disqusUrl = 'https://mgmt-6110-problem-set-1.vercel.app/';
+    const disqusIdentifier = 'home';
 
-    window.disqus_config = function () {
-      this.page.url = PAGE_URL;
-      this.page.identifier = PAGE_IDENTIFIER;
+    const configureDisqus = function (this: any) {
+      this.page.url = disqusUrl;
+      this.page.identifier = disqusIdentifier;
     };
 
-    const script = document.createElement('script');
-    script.id = SCRIPT_ID;
-    script.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
-    script.setAttribute('data-timestamp', String(+new Date()));
-    document.body.appendChild(script);
+    // If DISQUS is already loaded, reset the thread cleanly into the container
+    if (window.DISQUS) {
+      window.DISQUS.reset({
+        reload: true,
+        config: configureDisqus,
+      });
+      return;
+    }
+
+    // Set configuration on window for the initial script load
+    window.disqus_config = configureDisqus;
+
+    // Load the Disqus Universal Code script only once
+    const scriptId = 'disqus-embed-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = `https://${disqusShortname}.disqus.com/embed.js`;
+      script.setAttribute('data-timestamp', String(+new Date()));
+      script.async = true;
+      (document.head || document.body).appendChild(script);
+    }
   }, []);
 
-  return <div id="disqus_thread" />;
-}
+  return (
+    <div className="w-full bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col gap-3 mt-1">
+      <p className="text-xs sm:text-sm text-slate-600 font-medium">
+        Tell us what worked for you and what did not.
+      </p>
+      <div id="disqus_thread" className="min-h-[140px]" />
+    </div>
+  );
+};

@@ -14,6 +14,7 @@ import {
   Bus,
   RotateCcw
 } from 'lucide-react';
+import { DisqusComments } from './DisqusComments';
 
 interface BusServiceArrival {
   serviceNumber: string;
@@ -381,6 +382,9 @@ export const PrioritisedTaskScreen: React.FC<PrioritisedTaskScreenProps> = ({
           {remainingCount} incomplete {remainingCount === 1 ? 'task' : 'tasks'} remaining
         </span>
       </div>
+
+      {/* Visitor Feedback & Discussion */}
+      <DisqusComments />
     </div>
   );
 };
