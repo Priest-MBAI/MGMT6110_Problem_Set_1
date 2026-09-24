@@ -110,6 +110,9 @@ export default function App() {
           <p className="text-[10px] text-slate-500 text-center leading-relaxed">
             Contains information from LTA DataMall accessed on 15 September 2026 from https://datamall.lta.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0
           </p>
+          <p className="text-[10px] text-slate-500 text-center leading-relaxed">
+            This page uses Microsoft Clarity and Disqus, which use cookies to record how visitors use the site and to host comments. By using this page you agree that we and Microsoft may collect and use this data. See the <a href="https://www.microsoft.com/privacy/privacystatement" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Microsoft Privacy Statement</a> (<a href="https://www.microsoft.com/privacy/privacystatement" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">https://www.microsoft.com/privacy/privacystatement</a>), the <a href="https://disqus.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Disqus privacy policy</a> (<a href="https://disqus.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">https://disqus.com/privacy-policy/</a>) and the <a href="https://disqus.com/data-sharing-settings/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Disqus data sharing settings</a> (<a href="https://disqus.com/data-sharing-settings/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">https://disqus.com/data-sharing-settings/</a>).
+          </p>
         </div>
       </footer>
     </div>
