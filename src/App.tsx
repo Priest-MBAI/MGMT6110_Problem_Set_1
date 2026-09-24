@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { PrioritisedTaskScreen } from './components/PrioritisedTaskScreen';
 import { ActionStepsScreen } from './components/ActionStepsScreen';
 import { AllCompletedScreen } from './components/AllCompletedScreen';
+import { DisqusComments } from './components/DisqusComments';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function App() {
@@ -90,6 +91,14 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Single Disqus feedback thread, mounted outside the screen switching */}
+      <section className="max-w-xl w-full mx-auto px-4 pb-10">
+        <p className="text-sm font-semibold text-slate-600 mb-4">
+          Tried TICK? Tell us what worked for you and what did not.
+        </p>
+        <DisqusComments />
+      </section>
 
       {/* Subtle fresh academic footer */}
       <footer className="py-4 text-center text-xs text-slate-500 border-t border-slate-200 bg-white">
