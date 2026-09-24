@@ -52,7 +52,7 @@ export const DisqusComments: React.FC = () => {
       <p className="text-xs sm:text-sm text-slate-600 font-medium">
         Tell us what clicked, and what didn't.
       </p>
-      <div id="disqus_thread" className="min-h-[140px]" />
+      <div id="disqus_thread" className="min-h-[140px]" style={{ color: '#334155', backgroundColor: '#ffffff' }} />
     </div>
   );
 };
