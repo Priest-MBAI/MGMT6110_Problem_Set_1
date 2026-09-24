@@ -94,8 +94,8 @@ export default function App() {
 
       {/* Single Disqus feedback thread, mounted outside the screen switching */}
       <section className="max-w-xl w-full mx-auto px-4 pb-10">
-        <p className="text-sm font-semibold text-slate-600 mb-4">
-          Tried TICK? Tell us what worked for you and what did not.
+        <p className="text-base font-bold text-slate-800 mb-2">
+          Ticked something off?
         </p>
         <DisqusComments />
       </section>

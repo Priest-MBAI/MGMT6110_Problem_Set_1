@@ -50,7 +50,7 @@ export const DisqusComments: React.FC = () => {
   return (
     <div className="w-full bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col gap-3 mt-1">
       <p className="text-xs sm:text-sm text-slate-600 font-medium">
-        Tell us what worked for you and what did not.
+        Tell us what clicked, and what didn't.
       </p>
       <div id="disqus_thread" className="min-h-[140px]" />
     </div>
